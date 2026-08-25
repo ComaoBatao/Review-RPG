@@ -1,0 +1,83 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasProfile() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return hasProfile()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    function isApprovedReviewer() {
+      return hasProfile()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "reviewer"
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == "approved";
+    }
+
+    match /users/{userId} {
+      // Cada utilizador vê o próprio perfil. Admin vê todos.
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+
+      // Registo público: o utilizador só pode criar o SEU perfil e
+      // obrigatoriamente nasce como reviewer pendente.
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly([
+          "displayName", "email", "role", "status", "createdAt"
+        ])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() >= 2
+        && request.resource.data.displayName.size() <= 30
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == "reviewer"
+        && request.resource.data.status == "pending";
+
+      // Só o Admin altera aprovações/recusas e outros perfis.
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /campaigns/{campaignId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /episodes/{episodeId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /ratings/{ratingId} {
+      allow read: if true;
+
+      allow create: if signedIn()
+        && (isAdmin() || isApprovedReviewer())
+        && request.resource.data.keys().hasOnly(["episodeId", "score", "updatedAt"])
+        && request.resource.data.episodeId is string
+        && request.resource.data.score is int
+        && request.resource.data.score >= 1
+        && request.resource.data.score <= 6
+        && ratingId == request.resource.data.episodeId + "_" + request.auth.uid;
+
+      allow update: if signedIn()
+        && (isAdmin() || isApprovedReviewer())
+        && request.resource.data.keys().hasOnly(["episodeId", "score", "updatedAt"])
+        && request.resource.data.episodeId == resource.data.episodeId
+        && request.resource.data.score is int
+        && request.resource.data.score >= 1
+        && request.resource.data.score <= 6
+        && ratingId == resource.data.episodeId + "_" + request.auth.uid;
+
+      allow delete: if false;
+    }
+  }
+}

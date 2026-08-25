@@ -1,0 +1,1 @@
+Podes colocar banners/capas aqui e usar caminhos como assets/neon-ep01.jpg no painel admin.
