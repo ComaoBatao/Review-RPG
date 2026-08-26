@@ -1,0 +1,1228 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#11100e" />
+  <title>Feather Archive — Arquivo de Registos</title>
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" href="./style.css?v=4110" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a id="homeLink" class="brand" href="./" aria-label="Feather Archive">
+      <img class="brand-icon" src="./siteicon.png" alt="Feather Archive" />
+      <span>
+        <strong>FEATHER ARCHIVE</strong>
+        <small>ARQUIVO DE REGISTOS</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <span id="sessionBadge" class="session-badge">ACESSO PÚBLICO</span>
+
+      <button id="twitchBtn" class="icon-nav-btn twitch-nav-btn" type="button" title="Feather Live" aria-label="Abrir Feather Live">
+        <img src="./twitchicon.png" alt="" />
+      </button>
+
+      <button id="cinemaBtn" class="icon-nav-btn cinema-nav-btn" type="button" title="Feather Cinema" aria-label="Abrir Feather Cinema">
+        <img src="./cinemaicon.png" alt="" />
+      </button>
+
+      <button id="lofiBtn" class="icon-nav-btn lofi-nav-btn" type="button" title="Feather Lofi" aria-label="Abrir Feather Lofi">
+        <img src="./featherlofi.png" alt="" />
+        <span id="lofiNavBars" class="lofi-nav-bars" aria-hidden="true">
+          <i></i><i></i><i></i><i></i>
+        </span>
+      </button>
+
+      <button id="newsBtn" class="icon-nav-btn news-nav-btn" type="button" title="Novidades RPG" aria-label="Abrir Novidades RPG">
+        <img src="./novidadeicon.png" alt="" />
+        <span id="newsNavDot" class="news-nav-dot hidden" aria-hidden="true"></span>
+      </button>
+
+      <button id="playersBtn" class="btn ghost nav-btn" type="button">PLAYERS</button>
+      <button id="rankingsBtn" class="btn ghost nav-btn" type="button">RANKINGS</button>
+      <button id="adminBtn" class="btn ghost hidden" type="button">PAINEL ADMIN</button>
+      <button id="authBtn" class="btn" type="button">IDENTIFICAR-SE</button>
+    </div>
+  </header>
+
+  <div id="archiveShell" class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <span class="eyebrow">ÍNDICE CENTRAL</span>
+        <h2>Arquivos</h2>
+      </div>
+
+      <label class="search">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="Pesquisar arquivo..." autocomplete="off" />
+      </label>
+
+      <nav id="campaignNav" class="campaign-nav"></nav>
+    </aside>
+
+    <main class="main">
+      <section id="hero" class="hero">
+        <div class="hero-copy">
+          <span class="stamp">ACESSO AUTORIZADO</span>
+          <p class="eyebrow">BASE DE DADOS // REGISTOS AUDIOVISUAIS</p>
+          <h1>Arquivo de<br><em>Investigações</em></h1>
+          <p class="hero-text">
+            Consulta os episódios, analisa os registos e deixa a tua classificação.
+            Apenas investigadores identificados podem emitir avaliações.
+          </p>
+        </div>
+
+        <div class="hero-file">
+          <span>CLASSIFICAÇÃO</span>
+          <strong>HORXS / SPECTRO / TIEPIA</strong>
+          <hr>
+          <span>PROTOCOLO</span>
+          <strong>REVIEWS-06</strong>
+          <hr>
+          <span>ESTADO</span>
+          <strong class="green">ATIVO</strong>
+        </div>
+      </section>
+
+      <section id="latestNewsSection" class="latest-news-section hidden" aria-label="Última novidade RPG">
+        <button id="latestNewsCard" class="latest-news-card" type="button">
+          <div class="latest-news-kicker">
+            <span>ÚLTIMA NOVIDADE // FEATHER STUDIOS</span>
+            <small id="latestNewsDate">—</small>
+          </div>
+
+          <div class="latest-news-main">
+            <div>
+              <span id="latestNewsCategory" class="news-category-badge">COMUNICADO</span>
+              <h2 id="latestNewsTitle">—</h2>
+              <p id="latestNewsExcerpt">—</p>
+            </div>
+
+            <span class="latest-news-open">LER NOVIDADE →</span>
+          </div>
+        </button>
+      </section>
+
+      <section id="archiveSection" class="archive-section">
+        <div class="section-head">
+          <div>
+            <span id="archiveCode" class="eyebrow">DOSSIER // —</span>
+            <h2 id="archiveTitle">Seleciona um arquivo</h2>
+            <p id="archiveDescription">Os registos disponíveis aparecerão aqui.</p>
+          </div>
+          <div id="archiveMeta" class="archive-meta"></div>
+        </div>
+
+        <div id="episodeGrid" class="episode-grid">
+          <article class="empty-card">
+            <span>SEM DOSSIER SELECIONADO</span>
+            <p>Escolhe um arquivo no índice lateral.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+
+  <section id="cinemaView" class="special-view cinema-view hidden">
+    <div class="special-view-inner cinema-inner">
+      <div class="special-view-head">
+        <div>
+          <span class="eyebrow">SALA DE EXIBIÇÃO // FEATHER STUDIOS</span>
+          <h1>Feather Cinema</h1>
+          <p>Seleciona primeiro um arquivo e depois o episódio que queres assistir.</p>
+        </div>
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <section class="cinema-selector-panel">
+        <div class="cinema-selector-step">
+          <span class="cinema-step-number">01</span>
+          <label>
+            <span>ESCOLHER ARQUIVO</span>
+            <select id="cinemaCampaignSelect"></select>
+          </label>
+        </div>
+
+        <div class="cinema-selector-arrow" aria-hidden="true">→</div>
+
+        <div class="cinema-selector-step">
+          <span class="cinema-step-number">02</span>
+          <label>
+            <span>ESCOLHER EPISÓDIO</span>
+            <select id="cinemaEpisodeSelect"></select>
+          </label>
+        </div>
+
+        <button id="cinemaPlayBtn" class="cinema-play-btn" type="button">
+          <span>▶</span>
+          INICIAR EXIBIÇÃO
+        </button>
+      </section>
+
+      <div id="cinemaEmpty" class="cinema-empty hidden">
+        <span>SEM REGISTOS DE VÍDEO</span>
+        <p>Este arquivo ainda não possui episódios com ligação ao YouTube.</p>
+      </div>
+
+      <section id="cinemaScreening" class="cinema-screening hidden">
+        <div class="cinema-now-playing">
+          <div>
+            <span class="cinema-live-label">
+              <i></i>
+              AGORA EM EXIBIÇÃO
+            </span>
+            <span id="cinemaEpisodeCode" class="eyebrow">—</span>
+            <h2 id="cinemaEpisodeTitle">Seleciona um episódio</h2>
+          </div>
+
+          <a id="cinemaYoutubeLink" class="cinema-youtube-link" href="#" target="_blank" rel="noopener noreferrer">
+            ABRIR NO YOUTUBE ↗
+          </a>
+        </div>
+
+        <div class="cinema-player-shell">
+          <div class="cinema-curtain cinema-curtain-left" aria-hidden="true"></div>
+          <div class="cinema-curtain cinema-curtain-right" aria-hidden="true"></div>
+
+          <div class="cinema-player-frame">
+            <iframe
+              id="cinemaPlayer"
+              title="Feather Cinema"
+              src="about:blank"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <div class="cinema-controls">
+          <button id="cinemaPrevBtn" class="cinema-control-btn" type="button">
+            ← EP ANTERIOR
+          </button>
+
+          <div class="cinema-current-position">
+            <span id="cinemaPositionText">—</span>
+          </div>
+
+          <button id="cinemaNextBtn" class="cinema-control-btn" type="button">
+            EP SEGUINTE →
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
+
+
+
+  <section id="lofiView" class="special-view lofi-view hidden">
+    <div id="lofiBackdrop" class="lofi-backdrop" aria-hidden="true"></div>
+
+    <div class="special-view-inner lofi-inner">
+      <div class="special-view-head lofi-view-head">
+        <div>
+          <span class="eyebrow">FEATHER AUDIO DIVISION // SPOTIFY PREMIUM</span>
+          <h1>Feather Lofi</h1>
+          <p>O browser transforma-se num dispositivo Spotify Connect. Controla reprodução, volume, shuffle e loop diretamente pelo Feather.</p>
+        </div>
+
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <div id="lofiEmpty" class="lofi-empty">
+        <span>SEM ESTAÇÕES CONFIGURADAS</span>
+        <p>Quando uma playlist for adicionada pelo Admin, aparece aqui.</p>
+      </div>
+
+      <div id="lofiExperience" class="lofi-experience hidden">
+        <aside class="lofi-stations-panel">
+          <div class="lofi-panel-head">
+            <span class="eyebrow">ESTAÇÕES</span>
+            <strong>PLAYLISTS RPG</strong>
+          </div>
+
+          <div id="lofiStationList" class="lofi-station-list"></div>
+        </aside>
+
+        <main class="lofi-player-panel">
+          <div id="spotifyConnectPanel" class="spotify-connect-panel">
+            <div>
+              <span class="eyebrow">SPOTIFY CONNECT // WEB PLAYBACK SDK</span>
+              <strong id="spotifyConnectTitle">LIGA A TUA CONTA SPOTIFY</strong>
+              <p id="spotifyConnectText">É necessário Spotify Premium. O login usa OAuth PKCE e não guarda a tua palavra-passe.</p>
+            </div>
+
+            <div class="spotify-connect-actions">
+              <button id="spotifyLoginBtn" class="btn" type="button">ENTRAR COM SPOTIFY</button>
+              <button id="spotifyLogoutBtn" class="btn ghost hidden" type="button">DESCONECTAR SPOTIFY</button>
+            </div>
+          </div>
+
+          <div class="lofi-now-grid">
+            <div class="lofi-cover-zone">
+              <div id="lofiCover" class="lofi-cover">
+                <span>FA</span>
+              </div>
+
+              <div class="lofi-cover-label">
+                <span>NOW PLAYING // FEATHER LOFI</span>
+                <small id="lofiModeLabel">SPOTIFY CONNECT</small>
+              </div>
+            </div>
+
+            <div class="lofi-player-copy">
+              <span id="lofiCampaignCode" class="eyebrow">FEATHER STUDIOS</span>
+              <h2 id="lofiStationName">—</h2>
+              <p id="lofiStationDescription">—</p>
+
+              <div class="lofi-context-line">
+                <span>RPG</span>
+                <strong id="lofiCampaignName">—</strong>
+              </div>
+
+              <div id="lofiTrackMeta" class="lofi-track-meta">
+                <span>AGORA A TOCAR</span>
+                <strong id="lofiTrackTitle">Nenhuma música</strong>
+                <small id="lofiTrackArtist">Liga o Spotify e carrega em Play.</small>
+              </div>
+
+              <div class="lofi-custom-controls" aria-label="Controlos Feather Lofi">
+                <button id="lofiRandomBtn" class="lofi-control mode icon-only" type="button" title="Aleatório" aria-label="Aleatório">
+                  <img src="./lofi-icons/random.svg" alt="" />
+                </button>
+
+                <button id="lofiPrevBtn" class="lofi-control secondary icon-only" type="button" title="Música anterior" aria-label="Música anterior">
+                  <img src="./lofi-icons/back.svg" alt="" />
+                </button>
+
+                <button id="lofiPlayBtn" class="lofi-control play" type="button" title="Reproduzir" aria-label="Reproduzir">
+                  <img id="lofiPlayIcon" src="./lofi-icons/play.svg" alt="" />
+                </button>
+
+                <button id="lofiNextBtn" class="lofi-control secondary icon-only" type="button" title="Próxima música" aria-label="Próxima música">
+                  <img src="./lofi-icons/next.svg" alt="" />
+                </button>
+
+                <button id="lofiLoopBtn" class="lofi-control mode icon-only" type="button" title="Loop da música" aria-label="Loop da música">
+                  <img src="./lofi-icons/loop.svg" alt="" />
+                </button>
+              </div>
+
+              <div class="lofi-volume-control">
+                <button id="lofiMuteBtn" class="lofi-volume-icon" type="button" title="Silenciar / restaurar som" aria-label="Silenciar / restaurar som">
+                  <img id="lofiVolumeIcon" src="./lofi-icons/volume.svg" alt="" />
+                </button>
+                <input id="lofiVolumeSlider" type="range" min="0" max="100" value="65" step="1" aria-label="Volume" />
+                <strong id="lofiVolumeValue">65%</strong>
+              </div>
+
+              <p id="lofiControlHint" class="lofi-control-hint">LIGA O SPOTIFY PARA ATIVAR O PLAYER.</p>
+
+              <a id="lofiSpotifyLink" class="lofi-spotify-link" href="#" target="_blank" rel="noopener noreferrer">
+                ABRIR PLAYLIST NO SPOTIFY ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="lofi-sdk-statusbar">
+            <span>DEVICE // <strong id="lofiSpotifyStatus">OFFLINE</strong></span>
+            <span id="spotifyAccountLabel">SPOTIFY NÃO LIGADO</span>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <section id="newsView" class="special-view news-view hidden">
+    <div class="special-view-inner news-inner">
+      <div class="special-view-head news-view-head">
+        <div>
+          <span class="eyebrow">FEATHER STUDIOS // CENTRAL DE COMUNICADOS</span>
+          <h1>Novidades RPG</h1>
+          <p>Anúncios oficiais sobre sistemas, temporadas, episódios, produção, eventos e possíveis colaborações.</p>
+        </div>
+
+        <div class="news-head-actions">
+          <span id="newsFeedMeta" class="news-feed-meta">0 PUBLICAÇÕES</span>
+          <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+        </div>
+      </div>
+
+      <div id="newsFeatured" class="news-featured hidden"></div>
+
+      <div id="newsFeed" class="news-feed">
+        <div class="news-empty">
+          <span>SEM COMUNICADOS</span>
+          <p>Quando houver novidades da Feather Studios, aparecem aqui.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="playersView" class="special-view players-view hidden">
+    <div class="special-view-inner players-inner">
+      <div class="special-view-head">
+        <div>
+          <span class="eyebrow">FEATHER ARCHIVE // ELENCO</span>
+          <h1>Players</h1>
+          <p>Consulta os investigadores que deram vida aos arquivos e às personagens da Feather Studios.</p>
+        </div>
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <section id="playersDirectoryPanel" class="players-directory-panel">
+        <div class="players-directory-head">
+          <div>
+            <span class="eyebrow">REGISTO DE PARTICIPANTES</span>
+            <h2>Arquivo de Players</h2>
+          </div>
+          <div id="playersDirectoryMeta" class="players-directory-meta">0 PLAYERS</div>
+        </div>
+        <div id="playersGrid" class="players-grid"></div>
+      </section>
+
+      <section id="playerProfilePanel" class="player-profile-panel hidden">
+        <button id="playersBackBtn" class="player-profile-back" type="button">← TODOS OS PLAYERS</button>
+
+        <div id="playerProfileHero" class="player-profile-hero">
+          <div class="player-profile-cover"></div>
+          <div class="player-profile-shade"></div>
+          <div class="player-profile-identity">
+            <div id="playerProfileAvatar" class="player-profile-avatar"></div>
+            <div>
+              <span id="playerProfileCode" class="eyebrow">PLAYER DOSSIER</span>
+              <h2 id="playerProfileName">—</h2>
+              <p id="playerProfileBio">Sem biografia registada.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="playerProfileStats" class="player-profile-stats"></div>
+
+        <div class="player-profile-columns">
+          <section class="player-profile-section player-profile-characters-section">
+            <div class="player-profile-section-head">
+              <span class="eyebrow">INTERPRETAÇÕES</span>
+              <h3>Personagens</h3>
+            </div>
+            <div id="playerCharactersGrid" class="player-characters-grid"></div>
+          </section>
+
+          <section class="player-profile-section">
+            <div class="player-profile-section-head">
+              <span class="eyebrow">DOSSIERS</span>
+              <h3>RPGs em que participou</h3>
+            </div>
+            <div id="playerCampaignsList" class="player-campaigns-list"></div>
+          </section>
+        </div>
+
+        <section class="player-profile-section player-profile-episodes-section">
+          <div class="player-profile-section-head">
+            <span class="eyebrow">APARIÇÕES</span>
+            <h3>Episódios</h3>
+          </div>
+          <div id="playerEpisodesList" class="player-episodes-list"></div>
+        </section>
+      </section>
+    </div>
+  </section>
+
+  <section id="rankingsView" class="special-view hidden">
+    <div class="special-view-inner">
+      <div class="special-view-head">
+        <div>
+          <span class="eyebrow">FEATHER ARCHIVE // CLASSIFICAÇÕES</span>
+          <h1>Rankings</h1>
+          <p>Os registos mais bem classificados, mais lendários e mais avaliados do arquivo.</p>
+        </div>
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <div class="rankings-grid">
+        <section class="ranking-panel">
+          <div class="ranking-panel-head">
+            <span>01</span>
+            <div>
+              <small>CLASSIFICAÇÃO DOMINANTE</small>
+              <h2>Melhores Episódios</h2>
+            </div>
+          </div>
+          <div id="bestEpisodesRanking" class="ranking-list"></div>
+        </section>
+
+        <section class="ranking-panel">
+          <div class="ranking-panel-head">
+            <span>02</span>
+            <div>
+              <small>VOTOS ✦</small>
+              <h2>Mais Lendários</h2>
+            </div>
+          </div>
+          <div id="legendaryRanking" class="ranking-list"></div>
+        </section>
+
+        <section class="ranking-panel">
+          <div class="ranking-panel-head">
+            <span>03</span>
+            <div>
+              <small>NÚMERO DE RELATÓRIOS</small>
+              <h2>Mais Avaliados</h2>
+            </div>
+          </div>
+          <div id="mostRatedRanking" class="ranking-list"></div>
+        </section>
+      </div>
+
+      <section class="rating-map-section">
+        <div class="rating-map-head">
+          <div>
+            <span class="eyebrow">VISÃO GERAL // ARQUIVO</span>
+            <h2>Mapa de Classificações</h2>
+            <p>Seleciona um arquivo para comparar rapidamente a classificação dominante de todos os episódios.</p>
+          </div>
+
+          <label class="rating-map-select-wrap">
+            <span>ARQUIVO</span>
+            <select id="ratingMapCampaignSelect"></select>
+          </label>
+        </div>
+
+        <div id="ratingMapSummary" class="rating-map-summary"></div>
+
+        <div class="rating-map-scroll">
+          <div id="ratingMapGrid" class="rating-map-grid"></div>
+        </div>
+
+        <div class="rating-map-legend">
+          <span><i class="legend-swatch score-1"></i> 1★</span>
+          <span><i class="legend-swatch score-2"></i> 2★</span>
+          <span><i class="legend-swatch score-3"></i> 3★</span>
+          <span><i class="legend-swatch score-4"></i> 4★</span>
+          <span><i class="legend-swatch score-5"></i> 5★</span>
+          <span><i class="legend-swatch score-6"></i> ✦</span>
+          <span><i class="legend-swatch score-none"></i> Sem votos</span>
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <section id="liveView" class="special-view live-view hidden">
+    <div class="special-view-inner live-inner">
+      <div class="special-view-head">
+        <div>
+          <span class="eyebrow">TRANSMISSÃO // SAYMPZINHO</span>
+          <h1>Feather Live</h1>
+          <p>Assiste à livestream e acompanha o chat sem sair do arquivo.</p>
+        </div>
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <div class="live-layout">
+        <div class="live-player-frame">
+          <div class="live-frame-label">
+            <span class="live-dot"></span>
+            TWITCH // SAYMPZINHO
+          </div>
+          <iframe
+            id="twitchPlayer"
+            src="https://player.twitch.tv/?channel=saympzinho&parent=comaobatao.github.io&autoplay=false"
+            allowfullscreen
+            scrolling="no"
+            frameborder="0">
+          </iframe>
+        </div>
+
+        <div class="live-chat-frame">
+          <div class="live-frame-label">CHAT // TWITCH</div>
+          <iframe
+            id="twitchChat"
+            src="https://www.twitch.tv/embed/saympzinho/chat?parent=comaobatao.github.io&darkpopout"
+            frameborder="0">
+          </iframe>
+        </div>
+      </div>
+
+      <p class="live-note">
+        Se a Twitch pedir autenticação para escrever no chat, inicia sessão na própria Twitch dentro do embed.
+      </p>
+    </div>
+  </section>
+
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-card terminal-card">
+      <button class="close" data-close="authModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">TERMINAL DE IDENTIFICAÇÃO</span>
+      <h2 id="authTitle">Acesso ao arquivo</h2>
+
+      <div class="auth-tabs">
+        <button id="loginTab" class="tab active" data-auth-tab="login" type="button">ENTRAR</button>
+        <button id="registerTab" class="tab" data-auth-tab="register" type="button">CRIAR IDENTIFICAÇÃO</button>
+      </div>
+
+      <form id="loginForm" class="form-stack">
+        <label>
+          <span>E-MAIL</span>
+          <input id="emailInput" type="email" required autocomplete="email" placeholder="investigador@arquivo.pt" />
+        </label>
+        <label>
+          <span>PALAVRA-PASSE</span>
+          <input id="passwordInput" type="password" required autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <button class="btn wide" type="submit">AUTENTICAR</button>
+        <p id="loginMessage" class="form-message"></p>
+      </form>
+
+      <form id="registerForm" class="form-stack hidden">
+        <label>
+          <span>NICK / IDENTIFICAÇÃO</span>
+          <input id="registerName" required maxlength="30" autocomplete="nickname" placeholder="Dime7" />
+        </label>
+        <label>
+          <span>E-MAIL</span>
+          <input id="registerEmail" type="email" required autocomplete="email" placeholder="investigador@arquivo.pt" />
+        </label>
+        <label>
+          <span>PALAVRA-PASSE</span>
+          <input id="registerPassword" type="password" required minlength="6" autocomplete="new-password" placeholder="mínimo 6 caracteres" />
+        </label>
+        <label>
+          <span>CONFIRMAR PALAVRA-PASSE</span>
+          <input id="registerPassword2" type="password" required minlength="6" autocomplete="new-password" placeholder="repete a palavra-passe" />
+        </label>
+        <button class="btn wide" type="submit">ENVIAR PEDIDO DE ACESSO</button>
+        <p id="registerMessage" class="form-message"></p>
+      </form>
+
+      <div class="terminal-warning">
+        <strong>⚠ ACESSO CONTROLADO</strong>
+        <span>Contas novas ficam pendentes até aprovação do administrador.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <div class="modal-card admin-card">
+      <button class="close" data-close="adminModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">NÍVEL DE ACESSO // ADMIN</span>
+      <h2 id="adminTitle">Central do Arquivo</h2>
+
+      <div class="admin-tabs">
+        <button class="tab active" data-tab="episode" type="button">NOVO EPISÓDIO</button>
+        <button class="tab" data-tab="campaign" type="button">NOVO ARQUIVO</button>
+        <button class="tab" data-tab="archives" type="button">GERIR ARQUIVOS</button>
+        <button class="tab" data-tab="people" type="button">PLAYERS / PERSONAGENS</button>
+        <button class="tab" data-tab="lofi" type="button">FEATHER LOFI</button>
+        <button class="tab" data-tab="news" type="button">NOVIDADES RPG</button>
+        <button class="tab" data-tab="access" type="button">PEDIDOS DE ACESSO <span id="pendingCount" class="count-badge hidden">0</span></button>
+      </div>
+
+      <form id="episodeForm" class="admin-form">
+        <div class="field-grid">
+          <label class="span-2">
+            <span>ARQUIVO</span>
+            <select id="episodeCampaign" required></select>
+          </label>
+          <label>
+            <span>Nº DO EP</span>
+            <input id="episodeNumber" type="number" min="1" required placeholder="1" />
+          </label>
+          <label>
+            <span>DATA</span>
+            <input id="episodeDate" type="date" />
+          </label>
+          <label class="span-2">
+            <span>TÍTULO DO REGISTO</span>
+            <input id="episodeTitleInput" required placeholder="O título do episódio" />
+          </label>
+          <label>
+            <span>DURAÇÃO</span>
+            <input id="episodeDuration" placeholder="2h 17m" />
+          </label>
+          <label>
+            <span>ESTADO</span>
+            <select id="episodeStatus">
+              <option value="ARQUIVADO">ARQUIVADO</option>
+              <option value="EM INVESTIGAÇÃO">EM INVESTIGAÇÃO</option>
+              <option value="CONFIDENCIAL">CONFIDENCIAL</option>
+            </select>
+          </label>
+          <label class="span-2">
+            <span>LINK DA IMAGEM / BANNER DO EPISÓDIO</span>
+            <input id="episodeImageUrl" type="url" placeholder="https://exemplo.com/banner.png" />
+            <small class="field-help">Cola aqui um link direto para a imagem. Podes deixar vazio.</small>
+          </label>
+
+          <label class="span-2">
+            <span>LINK DO EPISÓDIO NO YOUTUBE</span>
+            <input id="episodeYoutubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." />
+            <small class="field-help">Se preencheres, aparece um botão “Ver Episódio” no registo.</small>
+          </label>
+          <label class="span-2">
+            <span>RESUMO</span>
+            <textarea id="episodeSynopsis" rows="3" placeholder="Descrição curta do episódio..."></textarea>
+          </label>
+
+          <div class="span-2 participant-editor-block">
+            <div class="participant-editor-head">
+              <div>
+                <span>PLAYERS PARTICIPANTES</span>
+                <small>Seleciona quem participou e, opcionalmente, qual personagem interpretou.</small>
+              </div>
+            </div>
+            <div id="episodeParticipantsEditor" class="participant-editor"></div>
+          </div>
+        </div>
+        <button class="btn wide" type="submit">PUBLICAR REGISTO</button>
+        <p id="episodeMessage" class="form-message"></p>
+      </form>
+
+      <form id="campaignForm" class="admin-form hidden">
+        <div class="field-grid">
+          <label>
+            <span>CÓDIGO</span>
+            <input id="campaignCodeInput" maxlength="8" required placeholder="HN" />
+          </label>
+          <label>
+            <span>NOME</span>
+            <input id="campaignTitleInput" required placeholder="HORXS: Neon" />
+          </label>
+          <label class="span-2">
+            <span>DESCRIÇÃO</span>
+            <textarea id="campaignDescriptionInput" rows="3" placeholder="Descrição do arquivo..."></textarea>
+          </label>
+          <label class="span-2">
+            <span>LINK DA IMAGEM DE CAPA DO ARQUIVO</span>
+            <input id="campaignCoverUrl" type="url" placeholder="https://exemplo.com/capa.png" />
+            <small class="field-help">Cola aqui um link direto para a imagem. Podes deixar vazio.</small>
+          </label>
+
+          <label class="check-field span-2">
+            <input id="campaignVisible" type="checkbox" checked />
+            <span>ARQUIVO VISÍVEL NO SITE</span>
+          </label>
+        </div>
+        <button class="btn wide" type="submit">CRIAR ARQUIVO</button>
+        <p id="campaignMessage" class="form-message"></p>
+      </form>
+
+
+      <section id="archiveManagePanel" class="admin-form hidden">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">GESTÃO DE DOSSIERS</span>
+            <h3>Gerir arquivos</h3>
+          </div>
+        </div>
+        <p class="access-copy">
+          Podes ocultar um arquivo sem o apagar. Arquivos ocultos continuam visíveis para o Admin.
+        </p>
+        <div id="archiveManageList" class="access-list">
+          <div class="empty-access">Nenhum arquivo criado.</div>
+        </div>
+      </section>
+
+
+
+      <section id="peopleManagePanel" class="admin-form hidden people-manage-panel">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">ELENCO // ADMIN</span>
+            <h3>Players & Personagens</h3>
+          </div>
+        </div>
+        <p class="access-copy">Cria os perfis dos players e associa personagens aos respetivos RPGs. Depois podes adicioná-los aos episódios.</p>
+
+        <div class="people-admin-grid">
+          <div class="people-admin-card">
+            <div class="people-admin-card-head">
+              <span class="eyebrow">PLAYER DOSSIER</span>
+              <h4 id="playerFormTitle">Novo Player</h4>
+            </div>
+            <form id="playerForm" class="form-stack compact-form">
+              <input id="playerEditId" type="hidden" />
+              <label><span>NOME</span><input id="playerNameInput" required maxlength="40" placeholder="Saymp" /></label>
+              <label><span>FOTO DE PERFIL</span><input id="playerAvatarInput" type="url" placeholder="https://.../avatar.png" /></label>
+              <label><span>BANNER DO PERFIL</span><input id="playerBannerInput" type="url" placeholder="https://.../banner.png" /></label>
+              <label><span>BIO</span><textarea id="playerBioInput" rows="3" maxlength="500" placeholder="Descrição curta do player..."></textarea></label>
+              <div class="people-form-actions">
+                <button id="playerSaveBtn" class="btn" type="submit">CRIAR PLAYER</button>
+                <button id="playerCancelEditBtn" class="btn ghost hidden" type="button">CANCELAR</button>
+              </div>
+              <p id="playerFormMessage" class="form-message"></p>
+            </form>
+            <div id="playerManageList" class="people-manage-list"></div>
+          </div>
+
+          <div class="people-admin-card">
+            <div class="people-admin-card-head">
+              <span class="eyebrow">CHARACTER FILE</span>
+              <h4 id="characterFormTitle">Nova Personagem</h4>
+            </div>
+            <form id="characterForm" class="form-stack compact-form">
+              <input id="characterEditId" type="hidden" />
+              <label><span>NOME</span><input id="characterNameInput" required maxlength="60" placeholder="Elias" /></label>
+              <label><span>PLAYER</span><select id="characterPlayerSelect" required></select></label>
+              <label><span>ARQUIVO / RPG</span><select id="characterCampaignSelect" required></select></label>
+              <label>
+                <span>IMAGEM DE CORPO INTEIRO</span>
+                <input id="characterImageInput" type="url" placeholder="https://.../personagem-corpo-inteiro.png" />
+                <small class="field-help">Recomendado: PNG transparente com a personagem de corpo inteiro.</small>
+              </label>
+              <label><span>DESCRIÇÃO</span><textarea id="characterDescriptionInput" rows="3" maxlength="700" placeholder="Descrição curta da personagem..."></textarea></label>
+              <div class="people-form-actions">
+                <button id="characterSaveBtn" class="btn" type="submit">CRIAR PERSONAGEM</button>
+                <button id="characterCancelEditBtn" class="btn ghost hidden" type="button">CANCELAR</button>
+              </div>
+              <p id="characterFormMessage" class="form-message"></p>
+            </form>
+            <div id="characterManageList" class="people-manage-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lofiManagePanel" class="admin-form hidden lofi-manage-panel">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">FEATHER AUDIO DIVISION // ADMIN</span>
+            <h3>Feather Lofi</h3>
+          </div>
+        </div>
+
+        <p class="access-copy">
+          Cria uma estação para cada RPG. O Feather usa o Spotify Web Playback SDK, por isso basta guardar o link da playlist — não precisas de colar as músicas individualmente.
+        </p>
+
+        <div class="lofi-admin-layout">
+          <form id="lofiForm" class="lofi-admin-form">
+            <input id="lofiEditId" type="hidden" />
+
+            <div class="people-admin-card-head">
+              <span class="eyebrow">ESTAÇÃO</span>
+              <h4 id="lofiFormTitle">Nova Estação</h4>
+            </div>
+
+            <div class="field-grid">
+              <label>
+                <span>RPG / ARQUIVO</span>
+                <select id="lofiCampaignSelect" required></select>
+              </label>
+
+              <label>
+                <span>NOME DA ESTAÇÃO</span>
+                <input id="lofiNameInput" required maxlength="80" placeholder="Neon Nights" />
+              </label>
+
+              <label class="span-2">
+                <span>PLAYLIST DO SPOTIFY</span>
+                <input id="lofiSpotifyUrlInput" type="url" required placeholder="https://open.spotify.com/playlist/..." />
+                <small class="field-help">Cola o link normal da playlist do Spotify.</small>
+              </label>
+
+              <label>
+                <span>CAPA</span>
+                <input id="lofiCoverUrlInput" type="url" placeholder="https://.../capa.png" />
+              </label>
+
+              <label>
+                <span>FUNDO / BANNER</span>
+                <input id="lofiBackgroundUrlInput" type="url" placeholder="https://.../fundo.png" />
+              </label>
+
+              <label class="span-2">
+                <span>DESCRIÇÃO</span>
+                <textarea id="lofiDescriptionInput" rows="3" maxlength="500" placeholder="Uma estação calma inspirada em HORXS: Neon..."></textarea>
+              </label>
+            </div>
+
+            <div class="news-admin-actions">
+              <button id="lofiSaveBtn" class="btn" type="submit">CRIAR ESTAÇÃO</button>
+              <button id="lofiCancelEditBtn" class="btn ghost hidden" type="button">CANCELAR EDIÇÃO</button>
+            </div>
+
+            <p id="lofiFormMessage" class="form-message"></p>
+          </form>
+
+          <div class="lofi-admin-list-panel">
+            <div class="people-admin-card-head">
+              <span class="eyebrow">ESTAÇÕES</span>
+              <h4>Gerir Playlists</h4>
+            </div>
+
+            <div id="lofiManageList" class="lofi-manage-list">
+              <div class="people-empty-inline">Nenhuma estação criada.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="newsManagePanel" class="admin-form hidden news-manage-panel">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">FEATHER STUDIOS // ADMIN</span>
+            <h3>Novidades RPG</h3>
+          </div>
+        </div>
+
+        <p class="access-copy">
+          Publica comunicados oficiais. As publicações ficam visíveis para todos os visitantes do Feather Archive.
+        </p>
+
+        <div class="news-admin-layout">
+          <form id="newsForm" class="news-admin-form">
+            <input id="newsEditId" type="hidden" />
+
+            <div class="people-admin-card-head">
+              <span class="eyebrow">PUBLICAÇÃO</span>
+              <h4 id="newsFormTitle">Nova Novidade</h4>
+            </div>
+
+            <div class="field-grid">
+              <label>
+                <span>CATEGORIA</span>
+                <select id="newsCategory" required>
+                  <option value="SISTEMA">SISTEMA</option>
+                  <option value="TEMPORADA">TEMPORADA</option>
+                  <option value="EPISÓDIO">EPISÓDIO</option>
+                  <option value="PARCERIA">PARCERIA</option>
+                  <option value="EVENTO">EVENTO</option>
+                  <option value="PRODUÇÃO">PRODUÇÃO</option>
+                  <option value="COMUNICADO">COMUNICADO</option>
+                  <option value="OUTRO">OUTRO</option>
+                </select>
+              </label>
+
+              <label>
+                <span>ARQUIVO RELACIONADO</span>
+                <select id="newsCampaign">
+                  <option value="">GERAL // FEATHER STUDIOS</option>
+                </select>
+              </label>
+
+              <label class="span-2">
+                <span>TÍTULO</span>
+                <input id="newsTitleInput" required maxlength="120" placeholder="HORXS RPG v1.7 anunciado" />
+              </label>
+
+              <label class="span-2">
+                <span>IMAGEM / BANNER OPCIONAL</span>
+                <input id="newsImageUrl" type="url" placeholder="https://.../imagem.png" />
+              </label>
+
+              <label class="span-2">
+                <span>COMUNICADO</span>
+                <textarea id="newsBodyInput" rows="7" maxlength="5000" required placeholder="Escreve aqui a novidade..."></textarea>
+              </label>
+
+              <label class="span-2">
+                <span>LINK OPCIONAL</span>
+                <input id="newsLinkUrl" type="url" placeholder="https://..." />
+                <small class="field-help">Ex.: trailer, vídeo, documento, publicação externa ou página relacionada.</small>
+              </label>
+
+              <label class="check-field span-2">
+                <input id="newsFeaturedInput" type="checkbox" />
+                <span>MARCAR COMO DESTAQUE</span>
+              </label>
+            </div>
+
+            <div class="news-admin-actions">
+              <button id="newsSaveBtn" class="btn" type="submit">PUBLICAR NOVIDADE</button>
+              <button id="newsCancelEditBtn" class="btn ghost hidden" type="button">CANCELAR EDIÇÃO</button>
+            </div>
+
+            <p id="newsFormMessage" class="form-message"></p>
+          </form>
+
+          <div class="news-admin-list-panel">
+            <div class="people-admin-card-head">
+              <span class="eyebrow">PUBLICAÇÕES</span>
+              <h4>Gerir Comunicados</h4>
+            </div>
+
+            <div id="newsManageList" class="news-manage-list">
+              <div class="people-empty-inline">Nenhuma novidade publicada.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="accessPanel" class="admin-form hidden">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">GESTÃO DE IDENTIFICAÇÕES</span>
+            <h3>Pedidos de acesso</h3>
+          </div>
+          <button id="showAllUsersBtn" class="btn ghost small-btn" type="button">VER TODOS</button>
+        </div>
+        <p class="access-copy">
+          Novas contas não podem avaliar até receberem autorização. Aprovar transforma a conta num Reviewer.
+        </p>
+        <div id="accessList" class="access-list">
+          <div class="empty-access">Nenhum pedido pendente.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <div id="editEpisodeModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="editEpisodeTitle">
+    <div class="modal-card admin-card">
+      <button class="close" data-close="editEpisodeModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">GESTÃO DE REGISTO // ADMIN</span>
+      <h2 id="editEpisodeTitle">Editar episódio</h2>
+
+      <form id="editEpisodeForm" class="admin-form">
+        <input id="editEpisodeId" type="hidden" />
+
+        <div class="field-grid">
+          <label class="span-2">
+            <span>ARQUIVO</span>
+            <select id="editEpisodeCampaign" required></select>
+          </label>
+
+          <label>
+            <span>Nº DO EP</span>
+            <input id="editEpisodeNumber" type="number" min="1" required />
+          </label>
+
+          <label>
+            <span>DATA</span>
+            <input id="editEpisodeDate" type="date" />
+          </label>
+
+          <label class="span-2">
+            <span>TÍTULO DO REGISTO</span>
+            <input id="editEpisodeName" required />
+          </label>
+
+          <label>
+            <span>DURAÇÃO</span>
+            <input id="editEpisodeDuration" placeholder="2h 17m" />
+          </label>
+
+          <label>
+            <span>ESTADO</span>
+            <select id="editEpisodeStatus">
+              <option value="ARQUIVADO">ARQUIVADO</option>
+              <option value="EM INVESTIGAÇÃO">EM INVESTIGAÇÃO</option>
+              <option value="CONFIDENCIAL">CONFIDENCIAL</option>
+            </select>
+          </label>
+
+          <label class="span-2">
+            <span>LINK DO BANNER</span>
+            <input id="editEpisodeImageUrl" type="url" placeholder="https://exemplo.com/banner.png" />
+            <small class="field-help">Altera o link para trocar o banner ou apaga o conteúdo para remover a imagem.</small>
+          </label>
+
+          <label class="span-2">
+            <span>LINK DO EPISÓDIO NO YOUTUBE</span>
+            <input id="editEpisodeYoutubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." />
+            <small class="field-help">Podes alterar ou apagar o link quando quiseres.</small>
+          </label>
+
+          <label class="span-2">
+            <span>RESUMO</span>
+            <textarea id="editEpisodeSynopsis" rows="4"></textarea>
+          </label>
+
+          <div class="span-2 participant-editor-block">
+            <div class="participant-editor-head">
+              <div>
+                <span>PLAYERS PARTICIPANTES</span>
+                <small>Atualiza quem participou e a personagem utilizada neste episódio.</small>
+              </div>
+            </div>
+            <div id="editEpisodeParticipantsEditor" class="participant-editor"></div>
+          </div>
+        </div>
+
+        <button class="btn wide" type="submit">GUARDAR ALTERAÇÕES</button>
+        <p id="editEpisodeMessage" class="form-message"></p>
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <div id="newsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+    <div class="modal-card news-modal-card">
+      <button class="close" data-close="newsModal" type="button" aria-label="Fechar">×</button>
+
+      <div id="newsModalImage" class="news-modal-image hidden"></div>
+
+      <div class="news-modal-body">
+        <div class="news-modal-meta">
+          <span id="newsModalCategory" class="news-category-badge">COMUNICADO</span>
+          <span id="newsModalDate">—</span>
+          <span id="newsModalCampaign" class="hidden">—</span>
+        </div>
+
+        <h2 id="newsModalTitle">—</h2>
+        <div id="newsModalText" class="news-modal-text"></div>
+
+        <a id="newsModalLink" class="btn ghost news-modal-link hidden" href="#" target="_blank" rel="noopener noreferrer">
+          ABRIR LIGAÇÃO ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="characterModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="characterModalName">
+    <div class="modal-card character-modal-card">
+      <button class="close" data-close="characterModal" type="button" aria-label="Fechar">×</button>
+
+      <div class="character-dossier-layout">
+        <div id="characterModalHero" class="character-modal-visual">
+          <div class="character-visual-grid" aria-hidden="true"></div>
+          <div class="character-visual-vignette" aria-hidden="true"></div>
+          <div id="characterModalPortrait" class="character-modal-fullbody"></div>
+          <span class="character-visual-stamp">FEATHER // CHARACTER FILE</span>
+        </div>
+
+        <div class="character-modal-body">
+          <span id="characterModalCode" class="eyebrow">CHARACTER FILE</span>
+          <h2 id="characterModalName">—</h2>
+
+          <div id="characterModalMeta" class="character-modal-meta"></div>
+
+          <section class="character-description-block">
+            <span>DESCRIÇÃO</span>
+            <p id="characterModalDescription">—</p>
+          </section>
+
+          <section class="character-appearances-block">
+            <div id="characterModalEpisodes" class="character-modal-episodes"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="shareReviewModal" class="modal share-review-modal hidden" role="dialog" aria-modal="true" aria-labelledby="shareReviewTitle">
+    <div class="modal-card share-review-card">
+      <button class="close" data-close="shareReviewModal" type="button" aria-label="Fechar">×</button>
+
+      <div class="share-review-heading">
+        <span class="eyebrow">FEATHER SHARE // STORY CARD</span>
+        <h2 id="shareReviewTitle">Partilhar Review</h2>
+        <p id="shareReviewIntro">Digitaliza o código com o telemóvel para preparar esta review para os Stories.</p>
+      </div>
+
+      <div class="share-review-layout">
+        <div class="share-story-preview-wrap">
+          <div class="share-story-label">PRÉ-VISUALIZAÇÃO // 1080 × 1920</div>
+          <img id="shareStoryPreview" class="share-story-preview" alt="Pré-visualização da review para Story" />
+        </div>
+
+        <div class="share-review-qr-panel">
+          <div class="share-qr-kicker">LÊ COM O TELEMÓVEL</div>
+          <div id="shareQrCode" class="share-qr-code" aria-label="QR Code da review"></div>
+          <strong>PARTILHAR NOS STORIES</strong>
+          <p>O QR abre esta review no teu telemóvel e prepara uma imagem vertical pronta a partilhar.</p>
+          <code id="shareReviewCode">FEATHER://REVIEW</code>
+        </div>
+      </div>
+
+      <div class="share-mobile-actions">
+        <button id="shareNativeBtn" class="btn share-native-btn" type="button">↗ PARTILHAR NO INSTAGRAM</button>
+        <button id="shareDownloadBtn" class="btn ghost" type="button">↓ GUARDAR STORY CARD</button>
+      </div>
+
+      <p id="shareReviewStatus" class="share-review-status"></p>
+    </div>
+  </div>
+
+  <template id="episodeTemplate">
+    <article class="episode-card">
+      <div class="episode-image-wrap">
+        <img class="episode-image" alt="" />
+        <div class="episode-overlay"></div>
+        <span class="episode-status"></span>
+        <span class="episode-new-badge hidden">NEW EP</span>
+        <span class="episode-file-number"></span>
+      </div>
+
+      <div class="episode-body">
+        <div class="episode-kicker"></div>
+        <h3 class="episode-title"></h3>
+        <p class="episode-synopsis"></p>
+
+        <a class="episode-youtube hidden" target="_blank" rel="noopener noreferrer">
+          <span>▶</span> VER EPISÓDIO NO YOUTUBE
+        </a>
+
+        <div class="case-data">
+          <div><span>DATA</span><strong class="episode-date"></strong></div>
+          <div><span>DURAÇÃO</span><strong class="episode-duration"></strong></div>
+          <div><span>RELATÓRIOS</span><strong class="episode-votes"></strong></div>
+        </div>
+
+        <div class="episode-participants hidden">
+          <div class="episode-participants-head">PLAYERS // PARTICIPANTES</div>
+          <div class="episode-participants-list"></div>
+        </div>
+
+        <div class="rating-result">
+          <span>CLASSIFICAÇÃO DOMINANTE</span>
+          <div class="dominant-rating"></div>
+          <small class="rating-caption"></small>
+        </div>
+
+        <div class="distribution"></div>
+
+        <div class="your-report">
+          <div class="report-head">
+            <div>
+              <span>O TEU RELATÓRIO</span>
+              <small class="vote-hint"></small>
+            </div>
+            <div class="rating-buttons" role="group" aria-label="Avaliar episódio"></div>
+          </div>
+
+          <div class="rating-reason-box">
+            <label>
+              <span>MOTIVO DA NOTA</span>
+              <textarea class="rating-reason-input" maxlength="800" rows="3" placeholder="Ex.: Este episódio é fraco porque é demasiado longo..."></textarea>
+            </label>
+            <div class="rating-reason-actions">
+              <button class="save-reason-btn" type="button">GUARDAR MOTIVO</button>
+              <button class="share-review-btn hidden" type="button">PARTILHAR REVIEW</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="community-reviews">
+          <div class="community-reviews-head">
+            <span>RELATÓRIOS DOS INVESTIGADORES</span>
+          </div>
+          <div class="community-reviews-list"></div>
+        </div>
+
+        <div class="episode-admin-actions hidden">
+          <button class="episode-admin-btn edit" type="button">EDITAR EPISÓDIO</button>
+          <button class="episode-admin-btn delete" type="button">ELIMINAR EPISÓDIO</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script type="module" src="./app.js?v=4120"></script>
+</body>
+</html>
