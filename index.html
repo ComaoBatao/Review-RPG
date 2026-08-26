@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#11100e" />
   <title>Feather Archive — Arquivo de Registos</title>
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <link rel="stylesheet" href="./style.css?v=3511" />
+  <link rel="stylesheet" href="./style.css?v=3600" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -25,6 +25,10 @@
 
       <button id="twitchBtn" class="icon-nav-btn twitch-nav-btn" type="button" title="Feather Live" aria-label="Abrir Feather Live">
         <img src="./twitchicon.png" alt="" />
+      </button>
+
+      <button id="cinemaBtn" class="icon-nav-btn cinema-nav-btn" type="button" title="Feather Cinema" aria-label="Abrir Feather Cinema">
+        <img src="./cinemaicon.png" alt="" />
       </button>
 
       <button id="rankingsBtn" class="btn ghost nav-btn" type="button">RANKINGS</button>
@@ -92,6 +96,97 @@
     </main>
   </div>
 
+
+
+  <section id="cinemaView" class="special-view cinema-view hidden">
+    <div class="special-view-inner cinema-inner">
+      <div class="special-view-head">
+        <div>
+          <span class="eyebrow">SALA DE EXIBIÇÃO // FEATHER STUDIOS</span>
+          <h1>Feather Cinema</h1>
+          <p>Seleciona primeiro um arquivo e depois o episódio que queres assistir.</p>
+        </div>
+        <button class="btn ghost returnArchiveBtn" type="button">← VOLTAR AOS ARQUIVOS</button>
+      </div>
+
+      <section class="cinema-selector-panel">
+        <div class="cinema-selector-step">
+          <span class="cinema-step-number">01</span>
+          <label>
+            <span>ESCOLHER ARQUIVO</span>
+            <select id="cinemaCampaignSelect"></select>
+          </label>
+        </div>
+
+        <div class="cinema-selector-arrow" aria-hidden="true">→</div>
+
+        <div class="cinema-selector-step">
+          <span class="cinema-step-number">02</span>
+          <label>
+            <span>ESCOLHER EPISÓDIO</span>
+            <select id="cinemaEpisodeSelect"></select>
+          </label>
+        </div>
+
+        <button id="cinemaPlayBtn" class="cinema-play-btn" type="button">
+          <span>▶</span>
+          INICIAR EXIBIÇÃO
+        </button>
+      </section>
+
+      <div id="cinemaEmpty" class="cinema-empty hidden">
+        <span>SEM REGISTOS DE VÍDEO</span>
+        <p>Este arquivo ainda não possui episódios com ligação ao YouTube.</p>
+      </div>
+
+      <section id="cinemaScreening" class="cinema-screening hidden">
+        <div class="cinema-now-playing">
+          <div>
+            <span class="cinema-live-label">
+              <i></i>
+              AGORA EM EXIBIÇÃO
+            </span>
+            <span id="cinemaEpisodeCode" class="eyebrow">—</span>
+            <h2 id="cinemaEpisodeTitle">Seleciona um episódio</h2>
+          </div>
+
+          <a id="cinemaYoutubeLink" class="cinema-youtube-link" href="#" target="_blank" rel="noopener noreferrer">
+            ABRIR NO YOUTUBE ↗
+          </a>
+        </div>
+
+        <div class="cinema-player-shell">
+          <div class="cinema-curtain cinema-curtain-left" aria-hidden="true"></div>
+          <div class="cinema-curtain cinema-curtain-right" aria-hidden="true"></div>
+
+          <div class="cinema-player-frame">
+            <iframe
+              id="cinemaPlayer"
+              title="Feather Cinema"
+              src="about:blank"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <div class="cinema-controls">
+          <button id="cinemaPrevBtn" class="cinema-control-btn" type="button">
+            ← EP ANTERIOR
+          </button>
+
+          <div class="cinema-current-position">
+            <span id="cinemaPositionText">—</span>
+          </div>
+
+          <button id="cinemaNextBtn" class="cinema-control-btn" type="button">
+            EP SEGUINTE →
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
 
   <section id="rankingsView" class="special-view hidden">
     <div class="special-view-inner">
@@ -530,6 +625,6 @@
 
   <div id="toast" class="toast hidden"></div>
 
-  <script type="module" src="./app.js?v=3511"></script>
+  <script type="module" src="./app.js?v=3600"></script>
 </body>
 </html>
