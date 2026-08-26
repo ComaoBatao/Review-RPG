@@ -922,13 +922,21 @@ textarea{resize:vertical}
 }
 .rating-map-row{
   display:grid;
-  grid-template-columns:92px repeat(var(--rating-cols, 1), 70px);
+
+  /* Primeira coluna = código do arquivo */
+  grid-template-columns:92px;
+
+  /* Todos os episódios criam novas colunas para a direita */
+  grid-auto-columns:70px;
+  grid-auto-flow:column;
+
   gap:8px;
   min-width:max-content;
 }
+
 .rating-map-header-row,
 .rating-map-score-row{
-  grid-template-columns:92px repeat(var(--rating-cols),70px);
+  grid-auto-flow:column;
 }
 .rating-map-corner,
 .rating-map-archive-label{
