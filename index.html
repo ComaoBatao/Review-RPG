@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#11100e" />
+  <title>Feather Archive — Arquivo de Registos</title>
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Feather Archive">
+      <img class="brand-icon" src="./siteicon.png" alt="Feather Archive" />
+      <span>
+        <strong>FEATHER ARCHIVE</strong>
+        <small>ARQUIVO DE REGISTOS</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <span id="sessionBadge" class="session-badge">ACESSO PÚBLICO</span>
+      <button id="adminBtn" class="btn ghost hidden" type="button">PAINEL ADMIN</button>
+      <button id="authBtn" class="btn" type="button">IDENTIFICAR-SE</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <span class="eyebrow">ÍNDICE CENTRAL</span>
+        <h2>Arquivos</h2>
+      </div>
+
+      <label class="search">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="Pesquisar arquivo..." autocomplete="off" />
+      </label>
+
+      <nav id="campaignNav" class="campaign-nav"></nav>
+    </aside>
+
+    <main class="main">
+      <section id="hero" class="hero">
+        <div class="hero-copy">
+          <span class="stamp">ACESSO AUTORIZADO</span>
+          <p class="eyebrow">BASE DE DADOS // REGISTOS AUDIOVISUAIS</p>
+          <h1>Arquivo de<br><em>Investigações</em></h1>
+          <p class="hero-text">
+            Consulta os episódios, analisa os registos e deixa a tua classificação.
+            Apenas investigadores identificados podem emitir avaliações.
+          </p>
+        </div>
+
+        <div class="hero-file">
+          <span>CLASSIFICAÇÃO</span>
+          <strong>HORXS / SPECTRO / TIEPIA</strong>
+          <hr>
+          <span>PROTOCOLO</span>
+          <strong>REVIEWS-06</strong>
+          <hr>
+          <span>ESTADO</span>
+          <strong class="green">ATIVO</strong>
+        </div>
+      </section>
+
+      <section id="archiveSection" class="archive-section">
+        <div class="section-head">
+          <div>
+            <span id="archiveCode" class="eyebrow">DOSSIER // —</span>
+            <h2 id="archiveTitle">Seleciona um arquivo</h2>
+            <p id="archiveDescription">Os registos disponíveis aparecerão aqui.</p>
+          </div>
+          <div id="archiveMeta" class="archive-meta"></div>
+        </div>
+
+        <div id="episodeGrid" class="episode-grid">
+          <article class="empty-card">
+            <span>SEM DOSSIER SELECIONADO</span>
+            <p>Escolhe um arquivo no índice lateral.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-card terminal-card">
+      <button class="close" data-close="authModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">TERMINAL DE IDENTIFICAÇÃO</span>
+      <h2 id="authTitle">Acesso ao arquivo</h2>
+
+      <div class="auth-tabs">
+        <button id="loginTab" class="tab active" data-auth-tab="login" type="button">ENTRAR</button>
+        <button id="registerTab" class="tab" data-auth-tab="register" type="button">CRIAR IDENTIFICAÇÃO</button>
+      </div>
+
+      <form id="loginForm" class="form-stack">
+        <label>
+          <span>E-MAIL</span>
+          <input id="emailInput" type="email" required autocomplete="email" placeholder="investigador@arquivo.pt" />
+        </label>
+        <label>
+          <span>PALAVRA-PASSE</span>
+          <input id="passwordInput" type="password" required autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <button class="btn wide" type="submit">AUTENTICAR</button>
+        <p id="loginMessage" class="form-message"></p>
+      </form>
+
+      <form id="registerForm" class="form-stack hidden">
+        <label>
+          <span>NICK / IDENTIFICAÇÃO</span>
+          <input id="registerName" required maxlength="30" autocomplete="nickname" placeholder="Dime7" />
+        </label>
+        <label>
+          <span>E-MAIL</span>
+          <input id="registerEmail" type="email" required autocomplete="email" placeholder="investigador@arquivo.pt" />
+        </label>
+        <label>
+          <span>PALAVRA-PASSE</span>
+          <input id="registerPassword" type="password" required minlength="6" autocomplete="new-password" placeholder="mínimo 6 caracteres" />
+        </label>
+        <label>
+          <span>CONFIRMAR PALAVRA-PASSE</span>
+          <input id="registerPassword2" type="password" required minlength="6" autocomplete="new-password" placeholder="repete a palavra-passe" />
+        </label>
+        <button class="btn wide" type="submit">ENVIAR PEDIDO DE ACESSO</button>
+        <p id="registerMessage" class="form-message"></p>
+      </form>
+
+      <div class="terminal-warning">
+        <strong>⚠ ACESSO CONTROLADO</strong>
+        <span>Contas novas ficam pendentes até aprovação do administrador.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <div class="modal-card admin-card">
+      <button class="close" data-close="adminModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">NÍVEL DE ACESSO // ADMIN</span>
+      <h2 id="adminTitle">Central do Arquivo</h2>
+
+      <div class="admin-tabs">
+        <button class="tab active" data-tab="episode" type="button">NOVO EPISÓDIO</button>
+        <button class="tab" data-tab="campaign" type="button">NOVO ARQUIVO</button>
+        <button class="tab" data-tab="archives" type="button">GERIR ARQUIVOS</button>
+        <button class="tab" data-tab="access" type="button">PEDIDOS DE ACESSO <span id="pendingCount" class="count-badge hidden">0</span></button>
+      </div>
+
+      <form id="episodeForm" class="admin-form">
+        <div class="field-grid">
+          <label class="span-2">
+            <span>ARQUIVO</span>
+            <select id="episodeCampaign" required></select>
+          </label>
+          <label>
+            <span>Nº DO EP</span>
+            <input id="episodeNumber" type="number" min="1" required placeholder="1" />
+          </label>
+          <label>
+            <span>DATA</span>
+            <input id="episodeDate" type="date" />
+          </label>
+          <label class="span-2">
+            <span>TÍTULO DO REGISTO</span>
+            <input id="episodeTitleInput" required placeholder="O título do episódio" />
+          </label>
+          <label>
+            <span>DURAÇÃO</span>
+            <input id="episodeDuration" placeholder="2h 17m" />
+          </label>
+          <label>
+            <span>ESTADO</span>
+            <select id="episodeStatus">
+              <option value="ARQUIVADO">ARQUIVADO</option>
+              <option value="EM INVESTIGAÇÃO">EM INVESTIGAÇÃO</option>
+              <option value="CONFIDENCIAL">CONFIDENCIAL</option>
+            </select>
+          </label>
+          <label class="span-2">
+            <span>LINK DA IMAGEM / BANNER DO EPISÓDIO</span>
+            <input id="episodeImageUrl" type="url" placeholder="https://exemplo.com/banner.png" />
+            <small class="field-help">Cola aqui um link direto para a imagem. Podes deixar vazio.</small>
+          </label>
+          <label class="span-2">
+            <span>RESUMO</span>
+            <textarea id="episodeSynopsis" rows="3" placeholder="Descrição curta do episódio..."></textarea>
+          </label>
+        </div>
+        <button class="btn wide" type="submit">PUBLICAR REGISTO</button>
+        <p id="episodeMessage" class="form-message"></p>
+      </form>
+
+      <form id="campaignForm" class="admin-form hidden">
+        <div class="field-grid">
+          <label>
+            <span>CÓDIGO</span>
+            <input id="campaignCodeInput" maxlength="8" required placeholder="HN" />
+          </label>
+          <label>
+            <span>NOME</span>
+            <input id="campaignTitleInput" required placeholder="HORXS: Neon" />
+          </label>
+          <label class="span-2">
+            <span>DESCRIÇÃO</span>
+            <textarea id="campaignDescriptionInput" rows="3" placeholder="Descrição do arquivo..."></textarea>
+          </label>
+          <label class="span-2">
+            <span>LINK DA IMAGEM DE CAPA DO ARQUIVO</span>
+            <input id="campaignCoverUrl" type="url" placeholder="https://exemplo.com/capa.png" />
+            <small class="field-help">Cola aqui um link direto para a imagem. Podes deixar vazio.</small>
+          </label>
+
+          <label class="check-field span-2">
+            <input id="campaignVisible" type="checkbox" checked />
+            <span>ARQUIVO VISÍVEL NO SITE</span>
+          </label>
+        </div>
+        <button class="btn wide" type="submit">CRIAR ARQUIVO</button>
+        <p id="campaignMessage" class="form-message"></p>
+      </form>
+
+
+      <section id="archiveManagePanel" class="admin-form hidden">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">GESTÃO DE DOSSIERS</span>
+            <h3>Gerir arquivos</h3>
+          </div>
+        </div>
+        <p class="access-copy">
+          Podes ocultar um arquivo sem o apagar. Arquivos ocultos continuam visíveis para o Admin.
+        </p>
+        <div id="archiveManageList" class="access-list">
+          <div class="empty-access">Nenhum arquivo criado.</div>
+        </div>
+      </section>
+
+      <section id="accessPanel" class="admin-form hidden">
+        <div class="access-head">
+          <div>
+            <span class="eyebrow">GESTÃO DE IDENTIFICAÇÕES</span>
+            <h3>Pedidos de acesso</h3>
+          </div>
+          <button id="showAllUsersBtn" class="btn ghost small-btn" type="button">VER TODOS</button>
+        </div>
+        <p class="access-copy">
+          Novas contas não podem avaliar até receberem autorização. Aprovar transforma a conta num Reviewer.
+        </p>
+        <div id="accessList" class="access-list">
+          <div class="empty-access">Nenhum pedido pendente.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <div id="editEpisodeModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="editEpisodeTitle">
+    <div class="modal-card admin-card">
+      <button class="close" data-close="editEpisodeModal" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">GESTÃO DE REGISTO // ADMIN</span>
+      <h2 id="editEpisodeTitle">Editar episódio</h2>
+
+      <form id="editEpisodeForm" class="admin-form">
+        <input id="editEpisodeId" type="hidden" />
+
+        <div class="field-grid">
+          <label class="span-2">
+            <span>ARQUIVO</span>
+            <select id="editEpisodeCampaign" required></select>
+          </label>
+
+          <label>
+            <span>Nº DO EP</span>
+            <input id="editEpisodeNumber" type="number" min="1" required />
+          </label>
+
+          <label>
+            <span>DATA</span>
+            <input id="editEpisodeDate" type="date" />
+          </label>
+
+          <label class="span-2">
+            <span>TÍTULO DO REGISTO</span>
+            <input id="editEpisodeName" required />
+          </label>
+
+          <label>
+            <span>DURAÇÃO</span>
+            <input id="editEpisodeDuration" placeholder="2h 17m" />
+          </label>
+
+          <label>
+            <span>ESTADO</span>
+            <select id="editEpisodeStatus">
+              <option value="ARQUIVADO">ARQUIVADO</option>
+              <option value="EM INVESTIGAÇÃO">EM INVESTIGAÇÃO</option>
+              <option value="CONFIDENCIAL">CONFIDENCIAL</option>
+            </select>
+          </label>
+
+          <label class="span-2">
+            <span>LINK DO BANNER</span>
+            <input id="editEpisodeImageUrl" type="url" placeholder="https://exemplo.com/banner.png" />
+            <small class="field-help">Altera o link para trocar o banner ou apaga o conteúdo para remover a imagem.</small>
+          </label>
+
+          <label class="span-2">
+            <span>RESUMO</span>
+            <textarea id="editEpisodeSynopsis" rows="4"></textarea>
+          </label>
+        </div>
+
+        <button class="btn wide" type="submit">GUARDAR ALTERAÇÕES</button>
+        <p id="editEpisodeMessage" class="form-message"></p>
+      </form>
+    </div>
+  </div>
+
+  <template id="episodeTemplate">
+    <article class="episode-card">
+      <div class="episode-image-wrap">
+        <img class="episode-image" alt="" />
+        <div class="episode-overlay"></div>
+        <span class="episode-status"></span>
+        <span class="episode-file-number"></span>
+      </div>
+
+      <div class="episode-body">
+        <div class="episode-kicker"></div>
+        <h3 class="episode-title"></h3>
+        <p class="episode-synopsis"></p>
+
+        <div class="case-data">
+          <div><span>DATA</span><strong class="episode-date"></strong></div>
+          <div><span>DURAÇÃO</span><strong class="episode-duration"></strong></div>
+          <div><span>RELATÓRIOS</span><strong class="episode-votes"></strong></div>
+        </div>
+
+        <div class="rating-result">
+          <span>CLASSIFICAÇÃO DOMINANTE</span>
+          <div class="dominant-rating"></div>
+          <small class="rating-caption"></small>
+        </div>
+
+        <div class="distribution"></div>
+
+        <div class="your-report">
+          <div class="report-head">
+            <div>
+              <span>O TEU RELATÓRIO</span>
+              <small class="vote-hint"></small>
+            </div>
+            <div class="rating-buttons" role="group" aria-label="Avaliar episódio"></div>
+          </div>
+
+          <div class="rating-reason-box">
+            <label>
+              <span>MOTIVO DA NOTA</span>
+              <textarea class="rating-reason-input" maxlength="800" rows="3" placeholder="Ex.: Este episódio é fraco porque é demasiado longo..."></textarea>
+            </label>
+            <button class="save-reason-btn" type="button">GUARDAR MOTIVO</button>
+          </div>
+        </div>
+
+        <div class="community-reviews">
+          <div class="community-reviews-head">
+            <span>RELATÓRIOS DOS INVESTIGADORES</span>
+          </div>
+          <div class="community-reviews-list"></div>
+        </div>
+
+        <div class="episode-admin-actions hidden">
+          <button class="episode-admin-btn edit" type="button">EDITAR EPISÓDIO</button>
+          <button class="episode-admin-btn delete" type="button">ELIMINAR EPISÓDIO</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
