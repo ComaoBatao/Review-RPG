@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && firestore.exists(
+          /databases/(default)/documents/users/$(request.auth.uid)
+        )
+        && firestore.get(
+          /databases/(default)/documents/users/$(request.auth.uid)
+        ).data.role == "admin";
+    }
+
+    match /uploads/{allPaths=**} {
+      // As capas/banners precisam de aparecer para qualquer visitante do site.
+      allow read: if true;
+
+      // Só Admin envia/substitui imagens, no máximo 5 MB e apenas imagens.
+      allow create, update: if isAdmin()
+        && request.resource.size <= 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow delete: if isAdmin();
+    }
+
+    // Qualquer outro caminho fica bloqueado.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
