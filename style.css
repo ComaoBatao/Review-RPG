@@ -1096,3 +1096,77 @@ textarea{resize:vertical}
     border-bottom:1px solid var(--line);
   }
 }
+
+/* =====================================================
+   FIX DEFINITIVO — MAPA DE CLASSIFICAÇÕES HORIZONTAL
+   ===================================================== */
+
+.rating-map-scroll {
+  width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 18px;
+}
+
+.rating-map-grid {
+  display: block !important;
+  width: max-content !important;
+  min-width: 100% !important;
+}
+
+/* Cada linha fica HORIZONTAL */
+.rating-map-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+
+  width: max-content !important;
+  min-width: max-content !important;
+
+  gap: 8px !important;
+
+  grid-template-columns: none !important;
+  grid-auto-columns: unset !important;
+  grid-auto-flow: unset !important;
+}
+
+/* Espaço entre linha dos EPs e linha das notas */
+.rating-map-header-row {
+  margin-bottom: 8px;
+}
+
+/* Primeira coluna: HA / HN / etc */
+.rating-map-corner,
+.rating-map-archive-label {
+  flex: 0 0 92px !important;
+
+  width: 92px !important;
+  min-width: 92px !important;
+  max-width: 92px !important;
+
+  box-sizing: border-box;
+}
+
+/* EP01, EP02, EP03... */
+.rating-map-episode-head {
+  flex: 0 0 70px !important;
+
+  width: 70px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
+
+  box-sizing: border-box;
+}
+
+/* 1★, 2★, 3★, ✦... */
+.rating-map-cell {
+  flex: 0 0 70px !important;
+
+  width: 70px !important;
+  min-width: 70px !important;
+  max-width: 70px !important;
+
+  height: 70px !important;
+
+  box-sizing: border-box;
+}
