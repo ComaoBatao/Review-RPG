@@ -978,31 +978,15 @@ textarea{resize:vertical}
 .rating-map-header-row{
   margin-bottom:3px;
   align-items:flex-end;
+
+  /* Alinha EP01 com a primeira célula sem criar um HA duplicado */
+  padding-left:92px;
 }
 
 .rating-map-score-row{
   align-items:flex-start;
 }
 
-
-/*
-  O primeiro HA da linha dos títulos continua a ocupar espaço
-  para manter tudo alinhado, mas fica invisível.
-  Assim só aparece o HA ao lado das notas.
-*/
-.rating-map-corner{
-  flex:0 0 86px;
-  width:86px;
-  min-width:86px;
-  max-width:86px;
-  height:28px;
-  visibility:hidden;
-  border:0;
-  background:transparent;
-  position:sticky;
-  left:0;
-  z-index:4;
-}
 
 
 /* HA visível apenas na linha das classificações */
@@ -1267,12 +1251,16 @@ textarea{resize:vertical}
     padding:14px 12px 17px;
   }
 
-  .rating-map-corner,
   .rating-map-archive-label{
     flex-basis:72px;
     width:72px;
     min-width:72px;
     max-width:72px;
+  }
+
+  .rating-map-header-row{
+    /* 72px do código + 6px de gap */
+    padding-left:78px;
   }
 
   .rating-map-episode-head,
@@ -1285,5 +1273,17 @@ textarea{resize:vertical}
 
   .rating-map-cell{
     height:54px;
+  }
+}
+
+
+/* v3.5.1 — alinhamento final do heatmap */
+.rating-map-header-row{
+  padding-left:92px !important;
+}
+
+@media(max-width:600px){
+  .rating-map-header-row{
+    padding-left:78px !important;
   }
 }
