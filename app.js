@@ -1292,6 +1292,18 @@ async function initSpotifyPlayer() {
       showToast("SPOTIFY // ESTA CONTA PRECISA DE PREMIUM.");
     });
 
+    player.addListener("autoplay_failed", () => {
+      console.warn("[FEATHER] Spotify autoplay bloqueado pelo browser.");
+      els.lofiSpotifyStatus.textContent = "CLICA PLAY NOVAMENTE";
+      showToast("SPOTIFY // O BROWSER BLOQUEOU O PRIMEIRO PLAY. CLICA PLAY OUTRA VEZ.");
+    });
+
+    player.addListener("playback_error", ({message}) => {
+      console.error("[FEATHER] Spotify playback:", message);
+      els.lofiSpotifyStatus.textContent = "ERRO DE PLAYBACK";
+      showToast(`SPOTIFY // PLAYBACK ERROR${message ? `: ${message}` : ""}`);
+    });
+
     state.spotifyPlayer = player;
     const success = await player.connect();
     if (!success) throw new Error("Spotify Player connect() falhou.");
@@ -1307,24 +1319,64 @@ async function initSpotifyPlayer() {
 async function spotifyStartSelectedPlaylist() {
   const item = selectedLofiPlaylist();
   const contextUri = spotifyPlaylistUri(item?.spotifyUrl);
-  if (!contextUri || !state.spotifyDeviceId) return;
+
+  if (!contextUri) {
+    showToast("SPOTIFY // LINK DA PLAYLIST INVÁLIDO.");
+    return false;
+  }
+
+  if (!state.spotifyDeviceId || !state.spotifyPlayer) {
+    showToast("SPOTIFY // O DEVICE FEATHER AINDA NÃO ESTÁ PRONTO.");
+    return false;
+  }
 
   try {
-    await state.spotifyPlayer?.activateElement?.();
+    // Tem de acontecer diretamente a partir do clique do utilizador para
+    // satisfazer as regras de autoplay de browsers como Edge/Chrome/Safari.
+    await state.spotifyPlayer.activateElement?.();
 
-    await spotifyApiRetry("/me/player", {
-      method: "PUT",
-      body: {device_ids: [state.spotifyDeviceId], play: false}
-    });
+    els.lofiSpotifyStatus.textContent = "A INICIAR...";
 
+    // Não fazemos Transfer Playback antes deste pedido. O endpoint de Play
+    // já aceita device_id e os endpoints Player não garantem ordem quando
+    // disparados em sequência, o que podia deixar o Web Playback SDK online
+    // mas sem qualquer faixa carregada.
     await spotifyApiRetry("/me/player/play", {
       method: "PUT",
       query: {device_id: state.spotifyDeviceId},
-      body: {context_uri: contextUri}
+      body: {context_uri: contextUri, position_ms: 0}
     });
+
+    // O primeiro arranque de um device Web Playback recém-criado pode demorar
+    // um instante a refletir o estado. Confirmamos e fazemos um pequeno retry.
+    await new Promise(resolve => setTimeout(resolve, 450));
+
+    let current = await state.spotifyPlayer.getCurrentState();
+
+    if (!current) {
+      await spotifyApiRetry("/me/player/play", {
+        method: "PUT",
+        query: {device_id: state.spotifyDeviceId},
+        body: {context_uri: contextUri, position_ms: 0}
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+      current = await state.spotifyPlayer.getCurrentState();
+    }
+
+    if (current?.paused) {
+      try {
+        await state.spotifyPlayer.resume();
+      } catch {}
+    }
+
+    els.lofiSpotifyStatus.textContent = "ONLINE";
+    return true;
   } catch (error) {
     console.error("[FEATHER] Spotify start playlist:", error);
+    els.lofiSpotifyStatus.textContent = "ERRO AO TOCAR";
     showToast(`SPOTIFY // ${error.message || "NÃO FOI POSSÍVEL TOCAR A PLAYLIST."}`);
+    return false;
   }
 }
 
@@ -1335,6 +1387,7 @@ async function spotifyTogglePlay() {
   }
 
   try {
+    // Chamada imediatamente no click para desbloquear áudio no browser.
     await state.spotifyPlayer.activateElement?.();
     const current = await state.spotifyPlayer.getCurrentState();
 
@@ -1346,7 +1399,8 @@ async function spotifyTogglePlay() {
     await state.spotifyPlayer.togglePlay();
   } catch (error) {
     console.error("[FEATHER] Spotify toggle:", error);
-    showToast("SPOTIFY // NÃO FOI POSSÍVEL ALTERAR A REPRODUÇÃO.");
+    els.lofiSpotifyStatus.textContent = "ERRO";
+    showToast(`SPOTIFY // ${error.message || "NÃO FOI POSSÍVEL ALTERAR A REPRODUÇÃO."}`);
   }
 }
 
