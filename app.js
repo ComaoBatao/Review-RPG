@@ -510,12 +510,7 @@ function renderRatingMap() {
 
   const headerRow = document.createElement("div");
   headerRow.className = "rating-map-row rating-map-header-row";
-
-  const archiveHeader = document.createElement("div");
-  archiveHeader.className = "rating-map-corner";
-  archiveHeader.textContent = safeText(campaign.code, "ARQ");
-  headerRow.appendChild(archiveHeader);
-
+  
   for (const { episode } of episodeStats) {
     const head = document.createElement("div");
     head.className = "rating-map-episode-head";
